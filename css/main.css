@@ -1,0 +1,61 @@
+
+
+@import url('https://fonts.googleapis.com/css?family=Niramit:300,300i,400,400i,600,600i,700i');
+
+*{
+	margin: 0;
+	padding: 0;
+}
+html{
+	height: 100%;
+}
+body{
+	font-family: 'Niramit', sans-serif;
+	font-size: 16px;
+	height: 100%;
+}
+h1{
+	font-weight: 700;
+	font-size: 2em;
+	text-align: center;
+	padding-top: 5%;
+	color: #E1DEDE;
+}
+h2{
+	font-weight: 700;
+	font-style: italic;
+	color: #A78B8B;
+	text-align: center;
+}
+h3{
+	font-weight: 400;
+	color: #E6E6E6;
+	text-align: center;
+}
+a{
+	text-decoration: none;
+}
+p{
+	color: #FFFFFF;
+	font-weight: 300;
+	font-style: italic;
+}
+ul{
+	list-style: none;
+}
+ul li a{
+	color: #FFFFFF;
+}
+.wrapers{
+	width: 100%;
+	margin: 0 auto;
+}
+input{
+	outline: none;
+}
+.display{
+	display: block;
+}
+label{
+	color: #A8A8A8;
+}

@@ -1,0 +1,118 @@
+
+header{
+	width: 100%;
+	height: 120px;
+	margin: 0 auto;
+	background-color: #050507;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	border-bottom: 5px solid #fff;
+	border-radius: 0 0 5px 5px;
+
+}
+
+.logo{
+	height: 100px;
+	/*width: 15%;*/
+	border-radius: 40px;
+	margin-left: 10px;
+	display: block;
+}
+.first_level_nav > li{
+	display: inline-block;
+	/*padding: 20px;*/
+	color: #D0CFCF;
+	position: relative;
+}
+.first_level_nav > li:not(:last-child):after{
+	content: "|";
+	margin: 0 20px;
+}
+
+.first_level_nav > li > a{
+	color: #FFFFFF;
+	padding: 20px;
+
+}
+nav li a:hover{
+	background-color: #616060;
+	border-radius: 4px;
+}
+.second_level_nav{
+	position: absolute;
+	top: 38px;
+	display: none;
+	padding-left: 10px;
+	width: 100%;
+	background-color: #040404;
+}
+.first_level_nav li:hover .second_level_nav{
+	display: block;
+	z-index: 66;
+}
+.inner{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+
+}
+#search_form{
+	width: 20%;
+	display: flex;
+
+}
+.autocomplete{
+	position: relative;
+}
+#myInput:after{
+	/*overflow: both;*/
+}
+.autocomplete-items{
+	position: absolute;
+	width: 100%;
+	z-index: 99;
+	color: #FFFFFF;
+}
+.autocomplete-items div{
+	/*border: 1px solid #9D9D9D;*/
+	display: block;
+	background: rgba(114, 114, 114, 0.8);
+	margin-bottom: 1px;
+	border-radius: 8px;
+}
+.inner form label{
+	color: #FFFFFF;
+	/*float: left;*/
+	display: block;
+}
+
+
+@media screen and (max-width: 1200px){
+	.logo{
+		margin-left: 3%;
+	}
+	.first_level_nav > li a{
+		padding: 2%;
+	}
+	.inner{
+		justify-content: space-between;
+	}
+	#search_form{
+		width: 30%;
+	}
+
+}
+@media screen and (max-width: 900px){
+	.inner form label{
+		display: none;
+	}
+	#search_form{
+		width: 25%;
+	}
+	.autocomplete input{
+		width: 90%;
+	}
+}
