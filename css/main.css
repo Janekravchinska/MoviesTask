@@ -46,15 +46,8 @@ ul{
 ul li a{
 	color: #FFFFFF;
 }
-.wrapers{
-	width: 100%;
-	margin: 0 auto;
-}
 input{
 	outline: none;
-}
-.display{
-	display: block;
 }
 label{
 	color: #A8A8A8;
