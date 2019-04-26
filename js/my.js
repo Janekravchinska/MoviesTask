@@ -30,8 +30,8 @@ async function loadSearchListener() {
 async function searchUsers(val) {
   const responseSearch = await axios.get(`${moviesApi}/search/movie?${apiKey}&query=${val}`);
   console.log(responseSearch);
- const searchList = [...responseSearch.data.results]
-   .sort((a, b) => a.id - b.id);
+  const dataList = response.data.results;
+  dataList.sort((a, b) => a.popularity - b.popularity);
 
   main.innerHTML="";
   for (const obj of searchList){
@@ -41,7 +41,6 @@ async function searchUsers(val) {
 
 async function buttonListener() {
   const popularBtn =document.getElementById('popular');
-  const latestBtn = document.getElementById('latest');
   const topratedBtn = document.getElementById('top-rated');
   const nowPlayingBtn = document.getElementById('now-played');
 
@@ -52,22 +51,15 @@ async function buttonListener() {
   }
   topratedBtn.onclick = ()=>{
     moviesURL =`${moviesApi}/movie/top_rated?${apiKey}`;
-    console.log('ok');
+    
     main.innerHTML=""
     loadUsersTable()
   }
    nowPlayingBtn.onclick = ()=>{
     moviesURL =`${moviesApi}/movie/now_playing?${apiKey}`
-    console.log('ok');
+   
     main.innerHTML="";
     loadUsersTable();
-  }
-
-
-    latestBtn.onclick = ()=>{
-    moviesURL =`${moviesApi}/movie/latest?${apiKey}`
-    console.log('ok')
-    // loadUsersTable()
   }
 
 }
