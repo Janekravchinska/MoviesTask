@@ -3,6 +3,10 @@
 const {axios} = window;
 const main = document.querySelector('.main');
 
+const popularBtn =document.getElementById('popular');
+const topratedBtn = document.getElementById('top-rated');
+const nowPlayingBtn = document.getElementById('now-played');
+
 const pgnFirst = document.getElementById('pgn-first');
 const pgnLast = document.getElementById('pgn-last');
 const pgnPrev = document.getElementById('pgn-prev');
@@ -13,6 +17,7 @@ const moviesApi = 'https://api.themoviedb.org/3';
 const apiKey = 'api_key=5874acfd11651a28c55771624f7021f4'; // should be moved to secret storage
 let pageNum =1;
 let searchInd = false;
+let pgnLastPage = pageNum;
 const input = document.getElementById("mySearch");
 
 let moviesURL = `${moviesApi}/movie/now_playing?${apiKey}`;
@@ -33,7 +38,6 @@ async function loadSearchListener() {
     if (event.keyCode === 13) {
       pageNum =1;
       searchInd = true;
-      console.log(searchInd);
       await searchUsers(input.value);
     }
   });
@@ -41,17 +45,18 @@ async function loadSearchListener() {
 
 async function searchUsers(val) {
   response = await axios.get(`${moviesApi}/search/movie?${apiKey}&query=${val}&page=${pageNum}`);
-  console.log(pageNum)
+  current(input);
   dataList = response.data.results;
   dataList.sort((a, b) => a.popularity - b.popularity);
+
+  pgnLastPage =response.data.total_pages;
+  console.log(response)
+  console.log(pgnLastPage)
   main.innerHTML="";
   post(dataList);
 }
 
 async function buttonListener() {
-  const popularBtn =document.getElementById('popular');
-  const topratedBtn = document.getElementById('top-rated');
-  const nowPlayingBtn = document.getElementById('now-played');
 
   popularBtn.onclick = ()=>{
     moviesURL =`${moviesApi}/movie/popular?${apiKey}&${pageNum}`;
@@ -59,6 +64,7 @@ async function buttonListener() {
     pageNum=1;
     searchInd =false;
     loadUsersTable();
+    current(popularBtn);
   
   }
   topratedBtn.onclick = ()=>{
@@ -67,6 +73,7 @@ async function buttonListener() {
     pageNum =1;
     searchInd =false;
     loadUsersTable();
+    current(topratedBtn);
   }
    nowPlayingBtn.onclick = ()=>{
     moviesURL =`${moviesApi}/movie/now_playing?${apiKey}&${pageNum}` 
@@ -74,6 +81,7 @@ async function buttonListener() {
     pageNum=1;
     searchInd =false;
     loadUsersTable();
+    current(nowPlayingBtn);
   }
 
 }
@@ -87,17 +95,11 @@ async function loadUsersTable() {
   const response = await axios.get(`${moviesURL}&page=${pageNum}`);
   const dataList = response.data.results;
   dataList.sort((a, b) => a.popularity - b.popularity);
-  console.log(dataList);
+  pgnLastPage =response.data.total_pages;
   post(dataList);
 }
 
 function pagination(){
-    // const pgnFirst = document.getElementById('pgn-first');
-    // const pgnLast = document.getElementById('pgn-last');
-    // const pgnPrev = document.getElementById('pgn-prev');
-    // const pgnNext = document.getElementById('pgn-next');
-    // const pgnCurrent = document.getElementById('pgn-current');
-  
 
     pgnFirst.onclick = () =>{
       main.innerHTML="";
@@ -121,6 +123,17 @@ function pagination(){
     pgnPrev.onclick = () =>{
       main.innerHTML="";
       pageNum -=1;
+      if(searchInd){
+        searchUsers(input.value);
+      }
+      else{
+        loadUsersTable();}
+
+    }
+
+    pgnLast.onclick = () =>{
+      main.innerHTML="";
+      pageNum = pgnLastPage;
       if(searchInd){
         searchUsers(input.value);
       }
@@ -170,8 +183,22 @@ function pgnText(){
   if(pageNum <= 1){
     pgnPrev.setAttribute('class', 'display');
   }
-  else{
+  if(pageNum > 1){
     pgnPrev.removeAttribute('class')
   }
   pgnNext.innerHTML=pageNum+1;
+
+  if(pageNum >= pgnLastPage){
+    pgnNext.setAttribute('class', 'display');
+  }
+  if(pageNum < pgnLastPage){
+    pgnNext.removeAttribute('class')
+  }
 }
+function current(elem){
+  let nav =[...document.getElementsByClassName('current')]
+  for(let el of nav){
+    el.removeAttribute('class');
+  }
+  elem.setAttribute('class', 'current')
+};

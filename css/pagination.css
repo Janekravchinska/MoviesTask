@@ -1,13 +1,15 @@
 .pgn-list{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
 }
 .pagination{
     margin: 0 auto;
     width: 100%;
-    padding: 20px 0;
+    padding: 10px 0;
     background-color: #050507;
+    border-bottom: 5px solid #fff;
+	border-radius: 0 0 5px 5px;
 }
 .pgn{
     width: 40%;
@@ -15,7 +17,8 @@
 }
 
 .pagination ul li a{
-    width: 40px;
+    margin: 10px;
+    width: 60px;
     height: 30px;
     background-color: #444444;
     text-align: center;
@@ -25,5 +28,8 @@
     display: block;
 }
 .pagination ul li a:hover{
+    background-color: #888888;
+}
+#pgn-current{
     background-color: #888888;
 }

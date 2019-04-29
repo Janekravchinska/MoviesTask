@@ -48,10 +48,6 @@ nav li a:hover{
 	width: 100%;
 	background-color: #040404;
 }
-.first_level_nav li:hover .second_level_nav{
-	display: block;
-	z-index: 66;
-}
 .inner{
 	display: flex;
 	flex-direction: row;
@@ -67,14 +63,15 @@ nav li a:hover{
 .autocomplete{
 	position: relative;
 }
-#myInput:after{
-	/*overflow: both;*/
-}
 .autocomplete-items{
 	position: absolute;
 	width: 100%;
 	z-index: 99;
 	color: #FFFFFF;
+}
+.current{
+	background-color: #414141;
+	border-radius: 10%;
 }
 .autocomplete-items div{
 	/*border: 1px solid #9D9D9D;*/
