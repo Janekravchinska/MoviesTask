@@ -1,3 +1,4 @@
+// import { pgnText } from 'pagination_button';
 
 
 const {axios} = window;
@@ -200,6 +201,7 @@ function pgnText(){
     pgnNext.removeAttribute('class')
   }
 }
+
 function current(elem){
   let nav =[...document.getElementsByClassName('current')]
   for(let el of nav){
