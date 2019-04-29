@@ -3,8 +3,17 @@
 const {axios} = window;
 const main = document.querySelector('.main');
 
+const pgnFirst = document.getElementById('pgn-first');
+const pgnLast = document.getElementById('pgn-last');
+const pgnPrev = document.getElementById('pgn-prev');
+const pgnNext = document.getElementById('pgn-next');
+const pgnCurrent = document.getElementById('pgn-current');
+
 const moviesApi = 'https://api.themoviedb.org/3';
 const apiKey = 'api_key=5874acfd11651a28c55771624f7021f4'; // should be moved to secret storage
+let pageNum =1;
+let searchInd = false;
+const input = document.getElementById("mySearch");
 
 let moviesURL = `${moviesApi}/movie/now_playing?${apiKey}`;
 
@@ -13,30 +22,30 @@ let moviesURL = `${moviesApi}/movie/now_playing?${apiKey}`;
 window.onload= ()=>{
 	loadUsersTable();
 	buttonListener();
-	loadSearchListener();
+  loadSearchListener();
+  pagination();
 }
 
 async function loadSearchListener() {
-  const input = document.getElementById("mySearch");
 
   input.addEventListener("keyup", async event => {
     event.preventDefault()
     if (event.keyCode === 13) {
+      pageNum =1;
+      searchInd = true;
+      console.log(searchInd);
       await searchUsers(input.value);
     }
   });
 }
 
 async function searchUsers(val) {
-  const responseSearch = await axios.get(`${moviesApi}/search/movie?${apiKey}&query=${val}`);
-  console.log(responseSearch);
-  const searchList = response.data.results;
-  searchList.sort((a, b) => a.popularity - b.popularity);
-
+  response = await axios.get(`${moviesApi}/search/movie?${apiKey}&query=${val}&page=${pageNum}`);
+  console.log(pageNum)
+  dataList = response.data.results;
+  dataList.sort((a, b) => a.popularity - b.popularity);
   main.innerHTML="";
-  for (const obj of searchList){
-    _madeMoviePos(obj);
-  }
+  post(dataList);
 }
 
 async function buttonListener() {
@@ -45,35 +54,86 @@ async function buttonListener() {
   const nowPlayingBtn = document.getElementById('now-played');
 
   popularBtn.onclick = ()=>{
-    moviesURL =`${moviesApi}/movie/popular?${apiKey}`;
+    moviesURL =`${moviesApi}/movie/popular?${apiKey}&${pageNum}`;
     main.innerHTML="";
+    pageNum=1;
+    searchInd =false;
     loadUsersTable();
+  
   }
   topratedBtn.onclick = ()=>{
-    moviesURL =`${moviesApi}/movie/top_rated?${apiKey}`;
-    
+    moviesURL =`${moviesApi}/movie/top_rated?${apiKey}&${pageNum}`; 
     main.innerHTML=""
-    loadUsersTable()
+    pageNum =1;
+    searchInd =false;
+    loadUsersTable();
   }
    nowPlayingBtn.onclick = ()=>{
-    moviesURL =`${moviesApi}/movie/now_playing?${apiKey}`
-   
+    moviesURL =`${moviesApi}/movie/now_playing?${apiKey}&${pageNum}` 
     main.innerHTML="";
+    pageNum=1;
+    searchInd =false;
     loadUsersTable();
   }
 
+}
+function post(list){
+  for( const element of list){
+  	_madeMoviePos(element);
+  }
 }
 
 async function loadUsersTable() {
-  const response = await axios.get(moviesURL);
+  const response = await axios.get(`${moviesURL}&page=${pageNum}`);
   const dataList = response.data.results;
   dataList.sort((a, b) => a.popularity - b.popularity);
-  for( const element of dataList){
-  	_madeMoviePos(element)
-  }
+  console.log(dataList);
+  post(dataList);
+}
+
+function pagination(){
+    // const pgnFirst = document.getElementById('pgn-first');
+    // const pgnLast = document.getElementById('pgn-last');
+    // const pgnPrev = document.getElementById('pgn-prev');
+    // const pgnNext = document.getElementById('pgn-next');
+    // const pgnCurrent = document.getElementById('pgn-current');
+  
+
+    pgnFirst.onclick = () =>{
+      main.innerHTML="";
+      pageNum =1;
+      if(searchInd){
+        searchUsers(input.value);
+      }
+      else{
+        loadUsersTable();}
+    };
+    pgnNext.onclick = () =>{
+      main.innerHTML="";
+      pageNum +=1;
+      if(searchInd){
+        searchUsers(input.value);
+      }
+      else{
+        loadUsersTable();}
+
+    }
+    pgnPrev.onclick = () =>{
+      main.innerHTML="";
+      pageNum -=1;
+      if(searchInd){
+        searchUsers(input.value);
+      }
+      else{
+        loadUsersTable();}
+
+    }
+
+  
 }
 
 function _madeMoviePos(obj) {
+  pgnText();
 
 	const wraperItem = document.createElement('div');
 	wraperItem.setAttribute('class', 'item');
@@ -102,4 +162,16 @@ function _madeMoviePos(obj) {
 	wraperItem.appendChild(title);
 
 	main.appendChild(wraperItem);	
+}
+
+function pgnText(){
+  pgnCurrent.innerHTML=pageNum;
+  pgnPrev.innerHTML=pageNum-1;
+  if(pageNum <= 1){
+    pgnPrev.setAttribute('class', 'display');
+  }
+  else{
+    pgnPrev.removeAttribute('class')
+  }
+  pgnNext.innerHTML=pageNum+1;
 }

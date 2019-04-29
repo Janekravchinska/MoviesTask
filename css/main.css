@@ -54,7 +54,7 @@ input{
 	outline: none;
 }
 .display{
-	display: block;
+	display: none !important;
 }
 label{
 	color: #A8A8A8;
