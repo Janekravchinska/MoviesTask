@@ -30,8 +30,8 @@ async function loadSearchListener() {
 async function searchUsers(val) {
   const responseSearch = await axios.get(`${moviesApi}/search/movie?${apiKey}&query=${val}`);
   console.log(responseSearch);
-  const dataList = response.data.results;
-  dataList.sort((a, b) => a.popularity - b.popularity);
+  const searchList = response.data.results;
+  searchList.sort((a, b) => a.popularity - b.popularity);
 
   main.innerHTML="";
   for (const obj of searchList){
@@ -67,6 +67,7 @@ async function buttonListener() {
 async function loadUsersTable() {
   const response = await axios.get(moviesURL);
   const dataList = response.data.results;
+  dataList.sort((a, b) => a.popularity - b.popularity);
   for( const element of dataList){
   	_madeMoviePos(element)
   }
