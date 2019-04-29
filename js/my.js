@@ -167,10 +167,15 @@ function _madeMoviePos(obj) {
 	else{
 		img.setAttribute('class', 'without-img');
 		img.setAttribute('src', 'images/no_img.jpg');
-	}
+  }
+  
+  const overview= document.createElement('span');
+  overview.innerHTML = obj.overview;
 
 	postImgA.appendChild(img);
-	wraperImg.appendChild(postImgA);
+  wraperImg.appendChild(postImgA);
+  wraperImg.appendChild(overview);
+  
 	wraperItem.appendChild(wraperImg);
 	wraperItem.appendChild(title);
 
